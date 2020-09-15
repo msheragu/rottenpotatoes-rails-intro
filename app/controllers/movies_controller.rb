@@ -26,6 +26,14 @@ class MoviesController < ApplicationController
     # @movies = Movie.all.order(:title)
     @movies = Movie.order(params[:sort_by])
     @sort_column = params[:sort_by]
+    
+    session[:filtered_ratings] = nil
+    if params[:ratings] != nil
+      @filtered_ratings = params[:ratings].keys
+      session[:filtered_ratings] = @filtered_ratings
+      @movies = Movie.all.where({rating: @filtered_ratings})
+    end
+    @all_ratings = Movie.all_ratings
   end
 
   def new
