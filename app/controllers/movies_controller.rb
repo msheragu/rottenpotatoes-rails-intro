@@ -24,16 +24,40 @@ class MoviesController < ApplicationController
   # end
   def index
     # @movies = Movie.all.order(:title)
-    @movies = Movie.order(params[:sort_by])
-    @sort_column = params[:sort_by]
     
-    session[:filtered_ratings] = nil
-    if params[:ratings] != nil
+    # session[:filtered_ratings] = nil
+    # if params[:ratings] != nil
+    #   @filtered_ratings = params[:ratings].keys
+    #   session[:filtered_ratings] = @filtered_ratings
+    #   @movies = Movie.all.where({rating: @filtered_ratings})
+    # end
+    # @all_ratings = Movie.all_ratings
+    
+    # if session[:filtered_ratings] = nil
+    #   session[:filtered_ratings] = Movie.all_ratings
+    # end
+    # if !params[:ratings].nil?
+    #   session[:filtered_ratings] = params[:ratings].keys
+    # end
+    # if !params[:sort_by].nil?
+    #   session[:sort_by] = params[:sort_by]
+    #   # @movies = Movie.order(params[:sort_by])
+    # end
+    @movies=Movie.all
+    @all_ratings = Movie.all_ratings
+    session[:sort_by] = params[:sort_by] unless params[:sort_by].nil?
+    @sort_column=session[:sort_by]
+    # if !session[:filtered_ratings]
+    #   session[:filtered_ratings]=Movie.all_ratings
+    # end
+    if params[:ratings]
       @filtered_ratings = params[:ratings].keys
       session[:filtered_ratings] = @filtered_ratings
-      @movies = Movie.all.where({rating: @filtered_ratings})
+      @movies=Movie.where(rating: @filtered_ratings).order(@sort_column)
+    elsif session[:filtered_ratings] !=nil
+      @movies=Movie.where(rating: session[:filtered_ratings]).order(@sort_column)
     end
-    @all_ratings = Movie.all_ratings
+    
   end
 
   def new
