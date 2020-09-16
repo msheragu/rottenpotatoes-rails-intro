@@ -1,0 +1,2 @@
+Github url : https://github.com/msheragu/rottenpotatoes-rails-intro
+Heroku app url : https://aqueous-sea-42846.herokuapp.com/
